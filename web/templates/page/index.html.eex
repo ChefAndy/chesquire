@@ -4,15 +4,22 @@
       Hello there, <span id="user"><%= @conn.params["roomer"] %> </span>
     </div>
 
+  <div class="col-md-12">
+    <h3>Case:</h3>
+
+    <p id="case" style="height: 300px; border: 1px solid black; overflow-y: auto;">
+    </p>
+  </div>
+
   <div class="col-md-8">
     <h3>Messages:</h3> 
-    <ul id="messageList" class="list-unstyled" style="height: 400px; border: 1px solid black; overflow-y: auto;">
+    <ul id="messageList" class="list-unstyled" style="height: 100px; border: 1px solid black; overflow-y: auto;">
     </ul>
 
     <input type="text" id="newMessage" class="form-control">
   </div>
-  <div class="col-md-4">
-    <h3>Users Online:</h3>
+  <div class="col-md-2">
+    <h3>Interlocutors:</h3>
     <ul id="userList" class="list-unstyled">
       <li></li>
     </ul>
