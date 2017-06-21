@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello Chesquire!</title>
+    <title>Chesquire: Legal Chat</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
@@ -16,7 +16,7 @@
       <header class="header">
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
-            <li><a href="http://lil.law.harvard.edu">A LIL Project</a></li>
+            <li><a href="/chat/lobby">Back to the Lobby</a></li>
           </ul>
         </nav>
         <span class="logo"></span>

@@ -16,6 +16,9 @@ defmodule Chesquire.Router do
   scope "/", Chesquire do
     pipe_through :browser # Use the default browser stack
 
+    get "/case/:case_id", PageController, :case
+    get "/chat/:room", PageController, :chat
+    get "/chat/", PageController, :chatlobby
     get "/", PageController, :index
   end
 

@@ -47,7 +47,8 @@ let render = (presences => {
 		.join("")
 })
 
-let room = socket.channel("room:lobby")
+let room = socket.channel("room:"+document.getElementById("room").innerText)
+
 room.on("presence_state", state => {
 	presences = Presence.syncState(presences, state)
 	render(presences)
