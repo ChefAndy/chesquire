@@ -7,6 +7,14 @@ defmodule Chesquire.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+  end
+
+  pipeline :browser_auth do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.EnsureAuthenticated, handler: Chesquire.Token
+    plug Guardian.Plug.LoadResource
   end
 
   pipeline :api do
@@ -15,12 +23,19 @@ defmodule Chesquire.Router do
 
   scope "/", Chesquire do
     pipe_through :browser # Use the default browser stack
+    resources "/users", UserController, [:new, :create]
+    resources "/sessions", SessionController, only: [:create, :delete]
+    get "/", SessionController, :new
+  end
 
+  scope "/", Chesquire do
+    pipe_through [:browser, :browser_auth]
+    resources "/users", UserController, only: [:show, :index, :update]
     get "/case/:case_id", PageController, :case
     get "/chat/:room", PageController, :chat
-    get "/chat/", PageController, :chatlobby
-    get "/", PageController, :index
+    get "/chat", PageController, :index
   end
+
 
   # Other scopes may use custom stacks.
   # scope "/api", Chesquire do

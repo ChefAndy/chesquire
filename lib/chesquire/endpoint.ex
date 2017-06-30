@@ -36,7 +36,7 @@ defmodule Chesquire.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_chesquire_key",
-    signing_salt: "TpY4/M8s"
+    signing_salt: "eFXxWv51"
 
   plug Chesquire.Router
 end

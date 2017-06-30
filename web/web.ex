@@ -52,6 +52,7 @@ defmodule Chesquire.Web do
       import Chesquire.Router.Helpers
       import Chesquire.ErrorHelpers
       import Chesquire.Gettext
+      import Chesquire.ViewHelper
     end
   end
 

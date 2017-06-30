@@ -36,8 +36,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :chesquire, Chesquire.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "chesquire_dev",
-  hostname: "localhost",
+  username: "chesquiredev",
+  password: "chesquiredev",
+  database: "chesquiredev",
+  hostname: "chesquiredev.cv97tsyby7rk.us-west-2.rds.amazonaws.com",  
   pool_size: 10

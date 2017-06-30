@@ -1,43 +1,36 @@
 defmodule Chesquire.RoomChannel do
-	use Chesquire.Web, :channel
-	alias Chesquire.Presence
+  use Chesquire.Web, :channel
+  alias Chesquire.Presence
 
-	def join("room:lobby", _, socket) do
-		send self(), :after_join
+  def join("room:lobby", _, socket) do
+    send self(), :after_join
+    {:ok, socket}
+  end
+  def join("room:" <> _private_room_id, _, socket) do
+    send self(), :after_join
+    {:ok, socket}
+  end
 
-		{:ok, socket}
-	end
-	def join("room:" <> _private_room_id, _, socket) do
-		send self(), :after_join
+  def handle_info(:after_join, socket) do
+    Presence.track(socket, socket.assigns.user, %{
+      online_at: :os.system_time(:milli_seconds)
+    })
+    broadcast! socket, "message:new",  %{
+      user: "Chesquire",
+      body: socket.assigns.user <> " joined the chat",
+      timestamp: :os.system_time(:milli_seconds)
+    }
+    push socket, "presence_state", Presence.list(socket)
+    {:noreply, socket}
+  end
 
-		{:ok, socket}
-	end
-	
-
-	def handle_info(:after_join, socket) do
-		Presence.track(socket, socket.assigns.user, %{
-				online_at: :os.system_time(:milli_seconds)
-			})
-		
-		broadcast! socket, "message:new",  %{
-			user: "Chesquire",
-			body: socket.assigns.user <> " joined the chat",
-			timestamp: :os.system_time(:milli_seconds)
-		}
-
-		push socket, "presence_state", Presence.list(socket)
-
-		{:noreply, socket}
-	end
-
-
-	def handle_in("message:new", message, socket) do
-		broadcast! socket, "message:new",  %{
-			user: socket.assigns.user,
-			body: message,
-			timestamp: :os.system_time(:milli_seconds)
-		}
-		{:noreply, socket}
-	end
+  def handle_in("message:new", message, socket) do
+    broadcast! socket, "message:new", %{
+      user: socket.assigns.user,
+      body: message,
+      timestamp: :os.system_time(:milli_seconds)
+    }
+    {:noreply, socket}
+  end
 
 end
