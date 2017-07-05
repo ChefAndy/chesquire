@@ -1,27 +1,27 @@
 <div class="row">
-    <div class="col-md-12">
-      Hello there, <span id="user"><%= @conn.params["user"] %> </span>
-      Hello there, <span id="user"><%= @conn.params["roomer"] %> </span>
-    </div>
+  <div class="col-md-12 alert alert-info">
+      Hello <span id="user"><%= "#{current_user(@conn).email}" %></span>, You're in: <span id="case"><%= @conn.params["case"] %></span>
+  </div>
 
   <div class="col-md-12">
     <h3>Case:</h3>
 
     <p id="case" style="height: 300px; border: 1px solid black; overflow-y: auto;">
+
     </p>
   </div>
 
   <div class="col-md-8">
     <h3>Messages:</h3> 
-    <ul id="messageList" class="list-unstyled" style="height: 100px; border: 1px solid black; overflow-y: auto;">
+    <ul id="MessageList" class="list-unstyled" style="height: 100px; border: 1px solid black; overflow-y: auto;">
     </ul>
 
-    <input type="text" id="newMessage" class="form-control">
+    <input type="text" id="NewMessage" class="form-control">
   </div>
   <div class="col-md-2">
-    <h3>Interlocutors:</h3>
-    <ul id="userList" class="list-unstyled">
-      <li></li>
+    <h2>Online:</h2>
+    <ul id="UserList" class="list-unstyled">
+      <li>Loading online users...</li>
     </ul>
   </div>
 </div>
