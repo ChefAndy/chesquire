@@ -31,9 +31,10 @@ defmodule Chesquire.Router do
   scope "/", Chesquire do
     pipe_through [:browser, :browser_auth]
     resources "/users", UserController, only: [:show, :index, :update]
-    get "/case/:case_id", PageController, :case
+    get "/case/:case_slug", PageController, :case
     get "/chat/:room", PageController, :chat
     get "/chat", PageController, :index
+    get "/case_xml/:case_slug", PageController, :case_xml
   end
 
 

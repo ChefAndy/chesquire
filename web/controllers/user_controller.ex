@@ -39,10 +39,10 @@ defmodule Chesquire.UserController do
     end
 
     def edit(conn, %{"id" => id}) do
-      user = Repo.get!(User, id)
+      user = IO.inspect(Repo.get!(User, id))
       cond do
         user == Guardian.Plug.current_resource(conn) ->
-          changeset = User.changeset(user)
+          changeset = User.changeset(IO.inspect(user))
           render(conn, "edit.html", user: user, changeset: changeset)
         :error ->
           conn

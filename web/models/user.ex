@@ -2,8 +2,13 @@ defmodule Chesquire.User do
   use Chesquire.Web, :model
 
   schema "users" do
-    field :email, :string
+    field :handle, :string
+    field :name, :string
     field :encrypt_pass, :string
+    field :email, :string
+    field :apikey, :string
+    field :disabled, :boolean, default: false
+    field :password_changed, Ecto.DateTime
     field :password, :string, virtual: true
 
     timestamps()
@@ -14,28 +19,26 @@ defmodule Chesquire.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:email, :password])
-    |> validate_required([:email, :password])
+    |> cast(params, [:handle, :name, :password, :email, :apikey, :disabled, :password_changed])
+    |> validate_required([:handle, :name, :password, :email, :apikey, :disabled, :password_changed])
+    |> unique_constraint(:handle)
     |> unique_constraint(:email)
   end
 
-   def reg_changeset(struct, params \\ %{}) do
+  def reg_changeset(struct, params \\ %{}) do
     struct
     |> changeset(params)
     |> cast(params, [:password], [])
-    |> validate_length(:password, min: 5)
+    |> validate_length(:password, min: 6)
     |> hash_pw()
   end
 
   defp hash_pw(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: p}} ->
-        put_change(changeset, :encrypt_pass, Comeonin.Pbkdf2.hashpwsalt(p))
-
+        put_change(changeset, :encrypt_pass, Comeonin.Bcrypt.hashpwsalt(p))
       _ -> 
         changeset
     end
   end
-
-  
 end

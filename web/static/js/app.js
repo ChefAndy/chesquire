@@ -5,6 +5,7 @@ let user = document.getElementById("user").innerText
 let socket = new Socket("/socket", {params: {user: user}})
 socket.connect()
 
+
 // Presence
 let presences = {}
 
@@ -32,53 +33,24 @@ let render = (presences) => {
 }
 
 var is_case = false;
-var room_name = "lobby";
-
-if (document.getElementById("room")) {
-  room_name = document.getElementById("room");
-} else if (document.getElementById("case")){
-  room_name = document.getElementById("case");
-  is_case = true;
-}
 
 //Get Case
-if (is_case) {
+if (document.getElementById("case_display")) {
 
-  let request = obj => {
-      return new Promise((resolve, reject) => {
-          let xhr = new XMLHttpRequest();
-          xhr.open(obj.method || "GET", obj.url);
-          if (obj.headers) {
-              Object.keys(obj.headers).forEach(key => {
-                  xhr.setRequestHeader(key, obj.headers[key]);
-              });
-          }
-          xhr.onload = () => {
-              if (xhr.status >= 200 && xhr.status < 300) {
-                  resolve(xhr.response);
-              } else {
-                  reject(xhr.statusText);
-              }
-          };
-          xhr.onerror = () => reject(xhr.statusText);
-          xhr.send(obj.body);
-      });
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+         // Typical action to be performed when the document is ready:
+         document.getElementById("case_display").innerHTML = xhttp.responseText;
+      }
   };
+  xhttp.open("GET", document.getElementById("case_display").getAttribute("data-case-url"), true);
+  xhttp.send();
 
-  let case_url = "http://library.law.harvard.edu/projects/32044038642120_redacted_CASEMETS_0003.xml"
-
-  request({url: case_url})
-      .then(data => {
-        var oSerializer = new XMLSerializer();
-        var sXML = oSerializer.serializeToString(data);
-      })
-      .catch(error => {
-          console.log(error);
-      });
 }
 
 // Channels
-let room = socket.channel("room:"+room_name.innerText)
+let room = socket.channel("room:"+document.getElementById("room").innerText)
 room.on("presence_state", state => {
   presences = Presence.syncState(presences, state);
   render(presences);

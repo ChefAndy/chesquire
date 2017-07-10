@@ -4,11 +4,35 @@
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
+  
+  <div class="form-group">
+    <%= label f, :handle, class: "control-label" %>
+    <%= text_input f, :handle, class: "form-control" %>
+    <%= error_tag f, :handle %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :name, class: "control-label" %>
+    <%= text_input f, :name, class: "form-control" %>
+    <%= error_tag f, :name %>
+  </div>
 
   <div class="form-group">
     <%= label f, :email, class: "control-label" %>
     <%= email_input f, :email, class: "form-control" %>
     <%= error_tag f, :email %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :apikey, class: "control-label" %>
+    <%= text_input f, :apikey, class: "form-control" %>
+    <%= error_tag f, :apikey %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :disabled, class: "control-label" %>
+    <%= checkbox f, :disabled, class: "form-control" %>
+    <%= error_tag f, :disabled %>
   </div>
 
   <div class="form-group">
@@ -21,3 +45,4 @@
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>
+

@@ -1,12 +1,12 @@
 <div class="row">
   <div class="col-md-12 alert alert-info">
-      Hello <span id="user"><%= "#{current_user(@conn).email}" %></span>, You're in: <span id="case"><%= @conn.params["case"] %></span>
+      Hello <span id="user"><%= "#{current_user(@conn).email}" %></span>, You're in: <span id="room"><%= @conn.params["case_slug"] %></span>
   </div>
-
+  
   <div class="col-md-12">
     <h3>Case:</h3>
 
-    <p id="case" style="height: 300px; border: 1px solid black; overflow-y: auto;">
+    <p id="case_display" data-case-url="<%= page_path(@conn, :case_xml, @conn.params["case_slug"]) %>" style="height: 300px; border: 1px solid black; overflow-y: auto;">
 
     </p>
   </div>
